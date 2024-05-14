@@ -1,3 +1,5 @@
+import { addToCart } from "@/store/cart/cartSlice";
+import { useAppDispatch } from "@/store/hook";
 
 interface IProduct {
   id: number;
@@ -7,12 +9,18 @@ interface IProduct {
   img: string;
 }
 
-const Product = ({ id, title, price, cat_prefix,img }: IProduct) => {
+const Product = ({ id, title, price, cat_prefix, img }: IProduct) => {
+  const dispatch = useAppDispatch();
+  
+
   return (
-    <div key={id}  className="card w-64 mx-auto sm:w-full rounded-xl flex flex-col justify-between space-y-2 p-2 bg-slate-200">
+    <div
+      key={id}
+      className="card w-64 mx-auto sm:w-full rounded-xl flex flex-col justify-between space-y-3 p-2 bg-slate-200"
+    >
       <div className="relative">
         <img
-          className="w-full h-52 object-cover rounded-xl"
+          className="w-full h-64 object-cover rounded-xl"
           src={img}
           alt={title}
         />
@@ -21,9 +29,17 @@ const Product = ({ id, title, price, cat_prefix,img }: IProduct) => {
         </span>
       </div>
       <div className="flex items-center justify-between">
-        <h3 className="mainColor capitalize font-bold">{title}</h3>
+        <h3 className="mainColor capitalize font-bold">
+          {title.substring(0, 16)}...
+        </h3>
         <p className="text-sm font-bold text-green-500">{price} EGP</p>
       </div>
+      <button
+        onClick={() => dispatch(addToCart({id,title,img,cat_prefix,price}))}
+        className="w-full p-1 capitalize mainBg text-white rounded-full hover:mainColor hover:bg-white duration-300"
+      >
+        add to cart
+      </button>
     </div>
   );
 };
